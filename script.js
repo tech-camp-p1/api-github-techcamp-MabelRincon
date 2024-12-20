@@ -2,6 +2,7 @@ const APIURL = 'https://api.github.com/users/'
 
 // Declarar las variables de los elementos que se necesitan del DOM
 
+const $form = document.getElementById('form');
 const $main = document.getElementById('main');
 const $search = document.getElementById('search');
 
@@ -29,7 +30,7 @@ async function getRepositories(username) {
     }
 }
 
-// Crear el card del usuario con un div dinámico.
+// Crear el card que muestre los datos utilizado un div dinámico.
 
 function createUserCard(user) {
     const cardHTML = `
