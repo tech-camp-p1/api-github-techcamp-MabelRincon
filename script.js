@@ -2,12 +2,11 @@ const APIURL = 'https://api.github.com/users/'
 
 // Declarar las variables de los elementos que se necesitan del DOM
 
-const $form = document.getElementById('form');
 const $main = document.getElementById('main');
 const $search = document.getElementById('search');
 
 // Extraer los datos del usuario utilizando la API de GitHub usando try...catch
-async function getUser(username) {
+export async function getUser(username) {
     try {
         const { data } = await axios(APIURL + username);
         createUserCard(data);
