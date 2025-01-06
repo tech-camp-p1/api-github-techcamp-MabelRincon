@@ -90,7 +90,11 @@ body {
   margin-left: 0.5rem;
 }
 
-.repo {
+.user-info ul li {
+  margin-right: 0.75rem;
+}
+
+.repository {
   text-decoration: none;
   color: #fff;
   background-color: #212a72;

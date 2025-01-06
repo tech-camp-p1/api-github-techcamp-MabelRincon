@@ -1,5 +1,5 @@
-import { getUser } from './script.js';
+import { getUserHandler } from './script.js';
 
 const $form = document.getElementById('form');
 
-$form.addEventListener('submit', getUser);
+$form.addEventListener('submit', getUserHandler);

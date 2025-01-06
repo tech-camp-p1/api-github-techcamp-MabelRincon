@@ -1,16 +1,20 @@
-const APIURL = 'https://api.github.com/users/'
-
-// Declarar las variables de los elementos que se necesitan del DOM
+const APIURL = 'https://api.github.com/users/';
 
 const $main = document.getElementById('main');
-const $search = document.getElementById('search');
 
-// Extraer los datos del usuario utilizando la API de GitHub usando try...catch
-export async function getUser(username) {
+export async function getUserHandler(submitEvent) {
+    submitEvent.preventDefault();
+    const $search = document.getElementById('search');
+    const usernameSearch = $search.value;
+
+    getUser(usernameSearch);
+    getRepositories(usernameSearch);
+}
+
+async function getUser(username) {
     try {
         const { data } = await axios(APIURL + username);
         createUserCard(data);
-        getRepos(username);
     } catch (error) {
         if (error.response.status == 404) {
             createErrorCard('No se encontro el usuario');
@@ -18,18 +22,14 @@ export async function getUser(username) {
     }
 }
 
-// Extraer los repositorios del usuario utilizando la API de GitHub usando try...catch
-
 async function getRepositories(username) {
     try {
-        const { data } = await axios(APIURL + username + '/repositories?sort=created');
+        const { data } = await axios(APIURL + username + '/repos?sort=created');
         addRepositoriesToCard(data);
     } catch (error) {
         createErrorCard('Error al obtener los repositorios');
     }
 }
-
-// Crear el card que muestre los datos utilizado un div dinámico.
 
 function createUserCard(user) {
     const cardHTML = `
@@ -45,19 +45,27 @@ function createUserCard(user) {
                     <li>${user.following} <strong>Following</strong></li>
                     <li>${user.public_repos} <strong>Repos</strong></li>
                 </ul>
-                <div id="repos"></div>
+                <!--The below div is to be filled by addRepositoriesToCard-->
+                <div id="repositories"></div>
             </div>
         </div>
     `;
-    main.innerHTML = cardHTML;
-console.log(cardHTML);
+    $main.innerHTML = cardHTML;
 }
 
-// Añadir los repositorios al HTML
+function createErrorCard(message) {
+    const cardHTML = `
+        <div class="card">
+            <div class="error-info">
+                <h2>${message}</h2>
+            </div>
+        </div>
+    `;
+    $main.innerHTML = cardHTML;
+}
 
 function addRepositoriesToCard(repositories) {
     const $repositories = document.getElementById('repositories');
-
     repositories.slice(0, 5).forEach(repository => {
         const $repository = document.createElement('a');
         $repository.classList.add('repository');
